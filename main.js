@@ -1,6 +1,8 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { Mesh } from "three";
 
 const scene = new THREE.Scene();
 
@@ -17,12 +19,13 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-const locationStart = document.body.getBoundingClientRect().top;
-camera.position.z = locationStart * 0.01 + 5;
-camera.position.x = locationStart * 0.005 + 5;
-camera.position.y = locationStart * 0.005 + 5;
+var cameraPosition = 12;
+camera.position.z = cameraPosition;
+camera.position.x = -cameraPosition;
+camera.position.y = cameraPosition;
 
 //objects
+
 const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
 const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
 const torus = new THREE.Mesh(geometry, material);
@@ -37,7 +40,7 @@ scene.add(pointLight, ambientLight);
 
 //const lightHelper = new THREE.PointLightHelper(pointLight);
 //const gridHelper = new THREE.GridHelper(200,50);
-//scene.add(lightHelper, gridHelper);
+//scene.add(gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -54,7 +57,7 @@ function generateStar() {
   scene.add(star);
 }
 
-Array(200).fill().forEach(generateStar);
+//Array(200).fill().forEach(generateStar);
 
 const spaceBackgroundTexture = new THREE.TextureLoader().load(
   "spacebackground.jpg"
@@ -69,7 +72,6 @@ const avatar = new THREE.Mesh(
   new THREE.BoxGeometry(3, 3, 3),
   new THREE.MeshBasicMaterial({ map: avatarTexture })
 );
-
 scene.add(avatar);
 
 //moon
@@ -84,9 +86,9 @@ const moon = new THREE.Mesh(
 
 scene.add(moon);
 
-moon.position.z = 30;
-moon.position.setX(-10);
-
+moon.position.z = -5;
+moon.position.setX(50);
+/*
 function cameraMove() {
   //gets the distance the viewport is from the top of the page.
   const location = document.body.getBoundingClientRect().top;
@@ -103,6 +105,15 @@ function cameraMove() {
 }
 
 document.body.onscroll = cameraMove;
+*/
+
+function cameraResize(){
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.render(scene, camera)
+}
 
 //each action in this function will occur each frame.
 function animate() {
@@ -115,9 +126,11 @@ function animate() {
   torus.rotation.y += 0.005;
   torus.rotation.z += 0.01;
 
-  //avatar.rotation.x += -0.01;
-  //avatar.rotation.y += -0.005;
-  //avatar.rotation.z += -0.01;
+  avatar.rotation.x += -0.01;
+  avatar.rotation.y += -0.005;
+  avatar.rotation.z += -0.01;
+
+  moon.rotation.y += .05;
 
   controls.update();
 
@@ -125,3 +138,4 @@ function animate() {
 }
 
 animate();
+window.addEventListener('resize', cameraResize, false);
