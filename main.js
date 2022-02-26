@@ -88,24 +88,21 @@ scene.add(moon);
 
 moon.position.z = -5;
 moon.position.setX(50);
-/*
-function cameraMove() {
+
+function pageScroll() {
   //gets the distance the viewport is from the top of the page.
   const location = document.body.getBoundingClientRect().top;
-  moon.rotation.x += 0.05;
-  moon.rotation.y += 0.075;
-  moon.rotation.z += 0.05;
 
-  avatar.rotation.y += 0.01;
-  avatar.rotation.z += 0.01;
-
-  camera.position.z = location * 0.01 + 5;
-  camera.position.x = location * 0.005 + 5;
-  camera.position.y = location * 0.005 + 5;
+  if (location <= -60) {
+    moonRotation = location * -.0005
+  }
+  else{
+    moonRotation = .05
+  }
 }
 
-document.body.onscroll = cameraMove;
-*/
+document.body.onscroll = pageScroll;
+
 
 function cameraResize(){
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -114,7 +111,7 @@ function cameraResize(){
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.render(scene, camera)
 }
-
+var moonRotation = .05
 //each action in this function will occur each frame.
 function animate() {
   //set framerate to 60 fps
@@ -130,7 +127,7 @@ function animate() {
   avatar.rotation.y += -0.005;
   avatar.rotation.z += -0.01;
 
-  moon.rotation.y += .05;
+  moon.rotation.y += moonRotation;
 
   controls.update();
 
