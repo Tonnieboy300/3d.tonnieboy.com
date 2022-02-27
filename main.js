@@ -1,8 +1,6 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { Mesh } from "three";
 
 const scene = new THREE.Scene();
 
@@ -37,10 +35,6 @@ pointLight.position.set(5, 5, 5);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
 
 scene.add(pointLight, ambientLight);
-
-//const lightHelper = new THREE.PointLightHelper(pointLight);
-//const gridHelper = new THREE.GridHelper(200,50);
-//scene.add(gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -95,14 +89,27 @@ function pageScroll() {
   console.log(location);
 
   if (location >= 0) {
-    moonRotation = .007
+    moon.position.y = .007;
+    torus.position.y = .007;
+    avatar.position.y = .007;
   }
   else{
-    moonRotation = location * -.0005
+    moon.position.y = location * -.035;
+    torus.position.y = location * -.035;
+    avatar.position.y = location * -.035;
   }
+  /*if (location < -180){
+    scene.remove(moon, torus, avatar)
+  }
+  else{
+    scene.add(moon, torus, avatar)
+  }*/
 }
 window.onload = pageScroll;
 document.body.onscroll = pageScroll;
+
+const gridHelper = new THREE.GridHelper(200,50);
+//cene.add(gridHelper);
 
 
 function cameraResize(){
