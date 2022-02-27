@@ -92,15 +92,16 @@ moon.position.setX(50);
 function pageScroll() {
   //gets the distance the viewport is from the top of the page.
   const location = document.body.getBoundingClientRect().top;
+  console.log(location);
 
-  if (location <= -60) {
-    moonRotation = location * -.0005
+  if (location >= 0) {
+    moonRotation = .007
   }
   else{
-    moonRotation = .05
+    moonRotation = location * -.0005
   }
 }
-
+window.onload = pageScroll;
 document.body.onscroll = pageScroll;
 
 

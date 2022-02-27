@@ -69,6 +69,20 @@ canvas {
     margin-bottom: var(--elementSpacing);
   }
 
+  footer {
+    grid-column: 2 / 8;
+    padding: 1rem;
+    background: var(--background);
+    font-size: 1.25rem;
+    line-height: 1.5;
+    margin-bottom: var(--elementSpacing);
+  }
+
+  footer h2{
+    color: white;
+    font-size: 3rem;
+  }
+
   blockquote {
     margin: 0;
     padding: 0;
@@ -76,12 +90,14 @@ canvas {
     margin-bottom: var(--elementSpacing);
   }
 
-  blockquote p {
+  blockquote h2 {
     color: black;
     background-color: white;
     font-size: 4rem;
-    display: inline;
-    line-height: 1;
+    display: inline-block;
+    line-height: 5rem;
+    padding-left: 10px;
+    padding-right:10px;
   }
 
   .left {
