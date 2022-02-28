@@ -1,5 +1,6 @@
 import "./style.css";
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const scene = new THREE.Scene();
 
@@ -16,7 +17,10 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-
+var cameraPosition = 12;
+camera.position.z = cameraPosition;
+camera.position.x = -cameraPosition;
+camera.position.y = cameraPosition;
 
 //objects
 
@@ -26,14 +30,28 @@ const torus = new THREE.Mesh(geometry, material);
 
 scene.add(torus);
 
-torus.position.x=0;
-torus.position.z=0;
-
 const pointLight = new THREE.PointLight(0xffffff, 1);
 pointLight.position.set(5, 5, 5);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
 
 scene.add(pointLight, ambientLight);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+
+function generateStar() {
+  const geometry = new THREE.SphereGeometry(0.2, 24, 24);
+  const material = new THREE.MeshStandardMaterial({ color: 0xf9f9d9 });
+  const star = new THREE.Mesh(geometry, material);
+
+  const [x, y, z] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
+
+  star.position.set(x, y, z);
+  scene.add(star);
+}
+
+//Array(200).fill().forEach(generateStar);
 
 const spaceBackgroundTexture = new THREE.TextureLoader().load(
   "spacebackground.jpg"
@@ -49,8 +67,6 @@ const avatar = new THREE.Mesh(
   new THREE.MeshBasicMaterial({ map: avatarTexture })
 );
 scene.add(avatar);
-avatar.position.x=0;
-avatar.position.z=0;
 
 //moon
 
@@ -67,32 +83,33 @@ scene.add(moon);
 moon.position.z = -5;
 moon.position.setX(50);
 
-
-const redBackground = new THREE.TextureLoader().load(
-  "redbackground.jpg"
-);
 function pageScroll() {
   //gets the distance the viewport is from the top of the page.
   const location = document.body.getBoundingClientRect().top;
   console.log(location);
 
-  moon.position.y = location * -.035;
-  torus.position.y = location * -.035;
-  avatar.position.y = location * -.035;
-
-  if(location !== 8){
-    scene.background = redBackground;
+  if (location >= 0) {
+    moon.position.y = .007;
+    torus.position.y = .007;
+    avatar.position.y = .007;
   }
   else{
-    scene.background = spaceBackgroundTexture;
+    moon.position.y = location * -.035;
+    torus.position.y = location * -.035;
+    avatar.position.y = location * -.035;
   }
-  
+  /*if (location < -180){
+    scene.remove(moon, torus, avatar)
+  }
+  else{
+    scene.add(moon, torus, avatar)
+  }*/
 }
 window.onload = pageScroll;
 document.body.onscroll = pageScroll;
 
 const gridHelper = new THREE.GridHelper(200,50);
-//scene.add(gridHelper);
+//cene.add(gridHelper);
 
 
 function cameraResize(){
@@ -102,10 +119,6 @@ function cameraResize(){
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.render(scene, camera)
 }
-var cameraPosition = 12;
-camera.position.z = cameraPosition;
-camera.position.x = -cameraPosition;
-camera.position.y = cameraPosition;
 var moonRotation = .05
 //each action in this function will occur each frame.
 function animate() {
@@ -124,6 +137,7 @@ function animate() {
 
   moon.rotation.y += moonRotation;
 
+  controls.update();
 
   renderer.render(scene, camera);
 }
