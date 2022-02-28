@@ -63,7 +63,7 @@ scene.background = spaceBackgroundTexture;
 const avatarTexture = new THREE.TextureLoader().load("avatar.png");
 
 const avatar = new THREE.Mesh(
-  new THREE.BoxGeometry(3, 3, 3),
+  new THREE.SphereGeometry(3),
   new THREE.MeshBasicMaterial({ map: avatarTexture })
 );
 scene.add(avatar);
