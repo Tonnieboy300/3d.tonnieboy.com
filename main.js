@@ -38,21 +38,6 @@ scene.add(pointLight, ambientLight);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-function generateStar() {
-  const geometry = new THREE.SphereGeometry(0.2, 24, 24);
-  const material = new THREE.MeshStandardMaterial({ color: 0xf9f9d9 });
-  const star = new THREE.Mesh(geometry, material);
-
-  const [x, y, z] = Array(3)
-    .fill()
-    .map(() => THREE.MathUtils.randFloatSpread(100));
-
-  star.position.set(x, y, z);
-  scene.add(star);
-}
-
-//Array(200).fill().forEach(generateStar);
-
 const spaceBackgroundTexture = new THREE.TextureLoader().load(
   "spacebackground.jpg"
 );
