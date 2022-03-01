@@ -108,8 +108,6 @@ function pageScroll() {
 window.onload = pageScroll;
 document.body.onscroll = pageScroll;
 
-const gridHelper = new THREE.GridHelper(200,50);
-//cene.add(gridHelper);
 
 
 function cameraResize(){
