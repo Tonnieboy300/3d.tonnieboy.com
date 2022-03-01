@@ -38,11 +38,6 @@ scene.add(pointLight, ambientLight);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-const spaceBackgroundTexture = new THREE.TextureLoader().load(
-  "spacebackground.jpg"
-);
-scene.background = spaceBackgroundTexture;
-
 //avatar mesh
 
 const avatarTexture = new THREE.TextureLoader().load("avatar.png");
@@ -68,27 +63,26 @@ scene.add(moon);
 moon.position.z = -5;
 moon.position.setX(50);
 
+const spaceBackgroundTexture = new THREE.TextureLoader().load(
+  "spacebackground.jpg"
+);
+const redBackgroundTexture = new THREE.TextureLoader().load(
+  "redbackground.jpg"
+);
 function pageScroll() {
   //gets the distance the viewport is from the top of the page.
   const location = document.body.getBoundingClientRect().top;
-  console.log(location);
 
-  if (location >= 0) {
-    moon.position.y = .007;
-    torus.position.y = .007;
-    avatar.position.y = .007;
-  }
-  else{
     moon.position.y = location * -.035;
     torus.position.y = location * -.035;
     avatar.position.y = location * -.035;
-  }
-  /*if (location < -180){
-    scene.remove(moon, torus, avatar)
-  }
-  else{
-    scene.add(moon, torus, avatar)
-  }*/
+
+    if(location !== 8){
+      scene.background = redBackgroundTexture;
+    }
+    else{
+      scene.background = spaceBackgroundTexture;
+    }
 }
 window.onload = pageScroll;
 document.body.onscroll = pageScroll;
