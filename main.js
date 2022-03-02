@@ -1,9 +1,25 @@
-import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
+
+
 let donut;
+
+//small window detection
+window.addEventListener('resize', cssChange);
+function cssChange(){
+  let windowWidth = window.innerWidth;
+  console.log(windowWidth);
+  if(windowWidth <= 700){
+   document.getElementById("css").href = "./mobile.css"
+  }else{
+   document.getElementById("css").href = "./style.css"
+  }
+ }
+
+window.onload = cssChange();
+
 
 const scene = new THREE.Scene();
 
