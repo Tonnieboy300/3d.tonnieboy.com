@@ -1,6 +1,9 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+
+let donut;
 
 const scene = new THREE.Scene();
 
@@ -60,28 +63,54 @@ const moon = new THREE.Mesh(
 
 scene.add(moon);
 
+//donut
+const donutLoader = new GLTFLoader();
+
+
+  donutLoader.load( './donut.glb', function ( gltf ) {
+  
+  donut = gltf.scene
+  donut.position.y = -20;
+
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+});
+
+
 moon.position.z = -5;
 moon.position.setX(50);
 
 const spaceBackgroundTexture = new THREE.TextureLoader().load(
   "spacebackground.jpg"
 );
+scene.background = spaceBackgroundTexture;
 const redBackgroundTexture = new THREE.TextureLoader().load(
   "redbackground.jpg"
 );
+
 function pageScroll() {
   //gets the distance the viewport is from the top of the page.
   const location = document.body.getBoundingClientRect().top;
+    console.log(location);
 
     moon.position.y = location * -.035;
     torus.position.y = location * -.035;
     avatar.position.y = location * -.035;
+    donut.position.y = -20 + location * -.035;
 
     if(location !== 8){
       scene.background = redBackgroundTexture;
     }
     else{
       scene.background = spaceBackgroundTexture;
+    }
+    if(location <= -500){
+      scene.add(donut);
+    }
+    else{
+      scene.remove(donut);
     }
 }
 window.onload = pageScroll;
