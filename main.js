@@ -20,7 +20,6 @@ function cssChange(){
 
 window.onload = cssChange();
 
-
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
