@@ -108,23 +108,21 @@ const redBackgroundTexture = new THREE.TextureLoader().load(
 function pageScroll() {
   //gets the distance the viewport is from the top of the page.
   const location = document.body.getBoundingClientRect().top;
-    console.log(location);
 
     moon.position.y = location * -.035;
     torus.position.y = location * -.035;
     avatar.position.y = location * -.035;
-    donut.position.y = -20 + location * -.035;
+    donut.position.y = -30 + location * -.035;
+    donut.rotation.x += 0.01;
+    donut.rotation.y += 0.005;
+    donut.rotation.z += 0.01;
 
     if(location !== 8){
       scene.background = redBackgroundTexture;
-    }
-    else{
-      scene.background = spaceBackgroundTexture;
-    }
-    if(location <= -500){
       scene.add(donut);
     }
     else{
+      scene.background = spaceBackgroundTexture;
       scene.remove(donut);
     }
 }
@@ -157,6 +155,8 @@ function animate() {
   avatar.rotation.z += -0.01;
 
   moon.rotation.y += moonRotation;
+
+  
 
   controls.update();
 
