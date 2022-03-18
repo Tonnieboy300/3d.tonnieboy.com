@@ -1,20 +1,27 @@
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-
+/*A bit of boilerplate for threejs*/
+import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js';
+import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
 
 
 let donut;
 
-//small window detection
+const cssElement = document.getElementById("css");
+/*small window detection
+ *This changes the css when the window is less than 700 pixels wide.
+*/
 window.addEventListener('resize', cssChange);
 function cssChange(){
   let windowWidth = window.innerWidth;
-  console.log(windowWidth);
+  let attribute = cssElement.getAttribute("href");
   if(windowWidth <= 700){
-   document.getElementById("css").href = "./mobile.css"
-  }else{
-   document.getElementById("css").href = "./style.css"
+    if(attribute == "./style.css"){
+      cssElement.href = "./mobile.css";
+    }
+  }
+  if(windowWidth > 700){
+    if(attribute == "./mobile.css"){
+      cssElement.href = "./style.css";
+    }
   }
  }
 
@@ -40,45 +47,35 @@ camera.position.z = cameraPosition;
 camera.position.x = -cameraPosition;
 camera.position.y = cameraPosition;
 
-//objects
+/*Sets up the scene
+ *torus, lighting, avatar, donut, moon
+*/
 
 const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
 const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
 const torus = new THREE.Mesh(geometry, material);
 
-scene.add(torus);
-
 const pointLight = new THREE.PointLight(0xffffff, 1);
 pointLight.position.set(5, 5, 5);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
 
-scene.add(pointLight, ambientLight);
-
-const controls = new OrbitControls(camera, renderer.domElement);
-
-//avatar mesh
-
-const avatarTexture = new THREE.TextureLoader().load("avatar.png");
+const avatarTexture = new THREE.TextureLoader().load('avatar.png');
 
 const avatar = new THREE.Mesh(
   new THREE.SphereGeometry(3),
   new THREE.MeshBasicMaterial({ map: avatarTexture })
 );
-scene.add(avatar);
 
-//moon
-
-const moonTexture = new THREE.TextureLoader().load("moontexture.jpg");
-const moonNormal = new THREE.TextureLoader().load("moonnormal.jpg");
+const moonTexture = new THREE.TextureLoader().load('./moontexture.jpg');
+const moonNormal = new THREE.TextureLoader().load('./moonnormal.jpg');
 
 const moon = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
   new THREE.MeshStandardMaterial({ map: moonTexture, normalMap: moonNormal })
 );
 
-scene.add(moon);
+scene.add(moon, avatar, pointLight, ambientLight, torus);
 
-//donut
 const donutLoader = new GLTFLoader();
 
 
@@ -98,11 +95,11 @@ moon.position.z = -5;
 moon.position.setX(50);
 
 const spaceBackgroundTexture = new THREE.TextureLoader().load(
-  "spacebackground.jpg"
+  './spacebackground.jpg'
 );
 scene.background = spaceBackgroundTexture;
 const redBackgroundTexture = new THREE.TextureLoader().load(
-  "redbackground.jpg"
+  'redbackground.jpg'
 );
 
 function pageScroll() {
@@ -155,10 +152,6 @@ function animate() {
   avatar.rotation.z += -0.01;
 
   moon.rotation.y += moonRotation;
-
-  
-
-  controls.update();
 
   renderer.render(scene, camera);
 }
