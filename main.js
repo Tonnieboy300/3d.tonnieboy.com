@@ -2,8 +2,12 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
 
-
 let donut;
+
+let location;
+
+let scrollLocation
+
 
 const cssElement = document.getElementById("css");
 /*small window detection
@@ -42,10 +46,9 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-var cameraPosition = 12;
-camera.position.z = cameraPosition;
-camera.position.x = -cameraPosition;
-camera.position.y = cameraPosition;
+camera.position.z = 24;
+camera.position.x = -2;
+camera.position.y = 0;
 
 /*Sets up the scene
  *torus, lighting, avatar, donut, moon
@@ -104,16 +107,19 @@ const redBackgroundTexture = new THREE.TextureLoader().load(
 
 function pageScroll() {
   //gets the distance the viewport is from the top of the page.
-  const location = document.body.getBoundingClientRect().top;
+  location = document.body.getBoundingClientRect().top;
 
-    moon.position.y = location * -.035;
-    torus.position.y = location * -.035;
-    avatar.position.y = location * -.035;
-    donut.position.y = -30 + location * -.035;
+    scrollLocation = location * -0.035;
+
+    moon.position.y = scrollLocation;
+    torus.position.y = scrollLocation;
+    avatar.position.y = scrollLocation;
+    donut.position.y = -30 + scrollLocation;
     donut.rotation.x += 0.01;
     donut.rotation.y += 0.005;
     donut.rotation.z += 0.01;
 
+    console.log(location);
     if(location !== 8){
       scene.background = redBackgroundTexture;
       scene.add(donut);
@@ -123,7 +129,6 @@ function pageScroll() {
       scene.remove(donut);
     }
 }
-window.onload = pageScroll;
 document.body.onscroll = pageScroll;
 
 
@@ -157,4 +162,4 @@ function animate() {
 }
 
 animate();
-window.addEventListener('resize', cameraResize, false);
+window.addEventListener('resize', cameraResize);
