@@ -10,7 +10,7 @@ let scrollLocation
 
 let windowWidth = window.innerWidth;
 
-
+let scrollChecker = new Boolean(false);
 
 const cssElement = document.getElementById("css");
 /*small window detection
@@ -51,6 +51,9 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+
+
+
 camera.position.z = 24;
 camera.position.x = -2;
 camera.position.y = 0;
@@ -87,7 +90,7 @@ scene.add(moon, avatar, pointLight, ambientLight, torus);
 const donutLoader = new GLTFLoader();
 
 
-  donutLoader.load( './donut.glb', function ( gltf ) {
+donutLoader.load( './donut.glb', function ( gltf ) {
   
   donut = gltf.scene
   donut.position.y = -20;
@@ -107,12 +110,19 @@ const spaceBackgroundTexture = new THREE.TextureLoader().load(
 );
 scene.background = spaceBackgroundTexture;
 const redBackgroundTexture = new THREE.TextureLoader().load(
-  'redbackground.jpg'
+  './redbackground.jpg'
 );
+
+function topOfPage(){
+  scene.background = spaceBackgroundTexture;
+  scene.remove(donut);
+}
 
 function pageScroll() {
   //gets the distance the viewport is from the top of the page.
   location = document.body.getBoundingClientRect().top;
+
+
 
     scrollLocation = location * -0.035;
 
@@ -124,18 +134,31 @@ function pageScroll() {
     donut.rotation.y += 0.005;
     donut.rotation.z += 0.01;
 
-    console.log(location);
+    //console.log(location);
     if(location !== 8){
       scene.background = redBackgroundTexture;
       scene.add(donut);
     }
     else{
-      scene.background = spaceBackgroundTexture;
-      scene.remove(donut);
+          //checks if the function has already been run
+        if(scrollChecker == false){
+        scene.add(donut);
+        scrollChecker = true
+        setTimeout(topOfPage, 20);
+      }else{
+        topOfPage();
+      }
     }
+
 }
 document.body.onscroll = pageScroll;
 
+//Prerenderer
+
+function preRender(){
+  scene.background = redBackgroundTexture;
+  renderer.render(scene,camera);
+}
 
 
 function cameraResize(){
@@ -166,5 +189,8 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+setTimeout(pageScroll,30);
+preRender();
 animate();
 window.addEventListener('resize', cameraResize);
+
