@@ -8,6 +8,9 @@ let location;
 
 let scrollLocation
 
+let windowWidth = window.innerWidth;
+
+
 
 const cssElement = document.getElementById("css");
 /*small window detection
@@ -28,6 +31,8 @@ function cssChange(){
     }
   }
  }
+
+let moonDistance = 30
 
 window.onload = cssChange();
 
@@ -95,7 +100,7 @@ const donutLoader = new GLTFLoader();
 
 
 moon.position.z = -5;
-moon.position.setX(50);
+moon.position.setX(moonDistance);
 
 const spaceBackgroundTexture = new THREE.TextureLoader().load(
   './spacebackground.jpg'
