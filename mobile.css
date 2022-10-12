@@ -96,3 +96,29 @@ blockquote h2 {
 a{
   color: #58dbfc;
 }
+
+.splash{
+  cursor: pointer;
+  position:fixed;
+  top:50%;
+  left:50%;
+  height:100%;
+  width:100%;
+  transform : translate(-50%,-50%);
+  background-color:black;
+  z-index:99;
+  animation-name: slideDown;
+  animation-duration: 2s;
+  animation-delay:2s;
+  animation-fill-mode:forwards;
+}
+
+.splashLogo{
+  position:fixed;
+  top:50%;
+  left:50%;
+  height:100%;
+  width:100%;
+  transform : translate(-50%,-50%);
+  height:25%;
+}
