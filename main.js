@@ -144,7 +144,6 @@ function pageScroll() {
         if(scrollChecker == false){
         scene.add(donut);
         scrollChecker = true
-        setTimeout(topOfPage, 20);
       }else{
         topOfPage();
       }
@@ -158,8 +157,8 @@ document.body.onscroll = pageScroll;
 function preRender(){
   scene.background = redBackgroundTexture;
   renderer.render(scene,camera);
+  setTimeout(topOfPage,100);
 }
-
 
 function cameraResize(){
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -190,7 +189,7 @@ function animate() {
 }
 
 setTimeout(pageScroll,30);
-preRender();
+preRender()
 animate();
 window.addEventListener('resize', cameraResize);
 
