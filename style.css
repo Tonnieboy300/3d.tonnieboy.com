@@ -111,11 +111,6 @@ a{
 
 /*Splash Screen */
 
-@keyframes slideDown {
-  from {transform : translate(-50%,-50%);}
-  to {transform : translate(-50%,100%);}
-}
-
 .splash{
   cursor: pointer;
   position:fixed;
@@ -126,10 +121,6 @@ a{
   transform : translate(-50%,-50%);
   background-color:black;
   z-index:99;
-  animation-name: slideDown;
-  animation-duration: 2s;
-  animation-delay:2s;
-  animation-fill-mode:forwards;
 }
 
 .splashLogo{
