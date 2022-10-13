@@ -12,6 +12,8 @@ let windowWidth = window.innerWidth;
 
 let scrollChecker = new Boolean(false);
 
+const splash = document.getElementById("splash");
+
 const cssElement = document.getElementById("css");
 /*small window detection
  *This changes the css when the window is less than 700 pixels wide.
@@ -188,8 +190,25 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+//makes the splash screen slide out of view
+function closeSplash() {
+  splash.style.animationName = "slideDown";
+  splash.style.animationDuration = "2s";
+  splash.style.animationDelay = "2s";
+  splash.style.animationFillMode = "forwards";
+  /*
+    animation-name: slideDown;
+    animation-duration: 2s;
+    animation-delay:2s;
+    animation-fill-mode:forwards;
+  */
+}
+
+//for some reason, the donut constant only seems to work in the page scroll function, so the donut is prerendered in it.
 setTimeout(pageScroll,30);
-preRender()
+preRender();
 animate();
+//the splash screen is hidden only when the background begins to render
+closeSplash();
 window.addEventListener('resize', cameraResize);
 

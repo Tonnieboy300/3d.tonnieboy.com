@@ -8,6 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Source+Serif+Pro:wght@700;900&display=swap" rel="stylesheet"> 
     <script src="./backgroundToggle.js" defer type="module"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /*animation for splashscreen*/
+      @keyframes slideDown {
+        from {transform : translate(-50%,-50%);}
+        to {transform : translate(-50%,100%);}
+      }
+    </style>
     <!--Import all assets not in the main script-->
     <link rel="stylesheet" id="css" href="./style.css" />
     <title>Tonnieboy</title>
@@ -64,7 +71,7 @@
         <p>Made with ❤️ by Tonnieboy300</p>
       </footer>
     </main>
-    <div class="splash">
+    <div class="splash" id="splash">
       <img src="./favicon.svg" alt="Tonnieboy Logo" class="splashLogo" >
     </div>
     <script type="module" src="/main.js"></script>
