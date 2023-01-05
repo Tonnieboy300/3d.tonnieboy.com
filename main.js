@@ -2,15 +2,8 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
 
-let donut;
-
 let location;
-
 let scrollLocation
-
-let windowWidth = window.innerWidth;
-
-let scrollChecker = new Boolean(false);
 
 const splash = document.getElementById("splash");
 
@@ -87,22 +80,22 @@ const moon = new THREE.Mesh(
   new THREE.MeshStandardMaterial({ map: moonTexture, normalMap: moonNormal })
 );
 
-scene.add(moon, avatar, pointLight, ambientLight, torus);
-
+var donut = new THREE.Object3D();
 const donutLoader = new GLTFLoader();
 
-
-donutLoader.load( './donut.glb', function ( gltf ) {
+donutLoader.load( 'donut.glb', function ( gltf ) {
   
-  donut = gltf.scene
-  donut.position.y = -20;
-
+  const donutLoad = gltf.scene;
+  scene.add(donutLoad);
+  donut.model = gltf.scene;
+  donut.add(donut.model);
 }, undefined, function ( error ) {
 
-	console.error( error );
+  console.error( error );
 
 });
 
+scene.add(moon, avatar, pointLight, ambientLight, torus, donut);
 
 moon.position.z = -5;
 moon.position.setX(moonDistance);
@@ -117,7 +110,6 @@ const redBackgroundTexture = new THREE.TextureLoader().load(
 
 function topOfPage(){
   scene.background = spaceBackgroundTexture;
-  scene.remove(donut);
 }
 
 function pageScroll() {
@@ -132,23 +124,13 @@ function pageScroll() {
     torus.position.y = scrollLocation;
     avatar.position.y = scrollLocation;
     donut.position.y = -30 + scrollLocation;
-    donut.rotation.x += 0.01;
-    donut.rotation.y += 0.005;
-    donut.rotation.z += 0.01;
 
     //console.log(location);
     if(location !== 8){
       scene.background = redBackgroundTexture;
-      scene.add(donut);
     }
     else{
-          //checks if the function has already been run
-        if(scrollChecker == false){
-        scene.add(donut);
-        scrollChecker = true
-      }else{
-        topOfPage();
-      }
+      topOfPage();
     }
 
 }
@@ -159,7 +141,7 @@ document.body.onscroll = pageScroll;
 function preRender(){
   scene.background = redBackgroundTexture;
   renderer.render(scene,camera);
-  setTimeout(topOfPage,100);
+  setTimeout(pageScroll,100);
 }
 
 function cameraResize(){
@@ -185,6 +167,10 @@ function animate() {
   avatar.rotation.y += -0.005;
   avatar.rotation.z += -0.01;
 
+ donut.rotation.x += 0.01;
+ donut.rotation.y += 0.005;
+ donut.rotation.z += 0.01;
+
   moon.rotation.y += moonRotation;
 
   renderer.render(scene, camera);
@@ -204,8 +190,6 @@ function closeSplash() {
   */
 }
 
-//for some reason, the donut constant only seems to work in the page scroll function, so the donut is prerendered in it.
-setTimeout(pageScroll,30);
 preRender();
 animate();
 //the splash screen is hidden only when the background begins to render
