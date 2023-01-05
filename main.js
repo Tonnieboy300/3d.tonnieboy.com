@@ -2,8 +2,9 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
 
-let location;
-let scrollLocation
+let oldlocation = document.body.getBoundingClientRect().top;
+let newlocation;
+let pageNum = 1;
 
 const splash = document.getElementById("splash");
 
@@ -107,32 +108,62 @@ scene.background = spaceBackgroundTexture;
 const redBackgroundTexture = new THREE.TextureLoader().load(
   './redbackground.jpg'
 );
+//this variable should equal the total number of pages
+let totalPages = 2;
+function pageSwitch(page){
+ // console.log("page:"+page);
 
-function topOfPage(){
-  scene.background = spaceBackgroundTexture;
+ //put code for each page here
+  switch (page){
+    case 1:
+      scene.background = spaceBackgroundTexture;
+      break;
+    case 2:
+      scene.background = redBackgroundTexture;
+      break;
+  }
 }
 
 function pageScroll() {
   //gets the distance the viewport is from the top of the page.
-  location = document.body.getBoundingClientRect().top;
+  newlocation = document.body.getBoundingClientRect().top;
+   // console.log("new location:"+newlocation);
+   // console.log("old location:"+oldlocation);
 
-
-
-    scrollLocation = location * -0.035;
-
-    moon.position.y = scrollLocation;
-    torus.position.y = scrollLocation;
-    avatar.position.y = scrollLocation;
-    donut.position.y = -30 + scrollLocation;
-
-    //console.log(location);
-    if(location !== 8){
-      scene.background = redBackgroundTexture;
+   //Logic is changed depending on whether or not
+   //the location variable is positive or negative
+    if(oldlocation > 0){
+        if(newlocation > oldlocation){
+          //these if statements prevent the page number from
+          //going below 1 or over the maximum.
+          if(pageNum > totalPages){
+          pageNum = pageNum + 1;
+          }
+        pageSwitch(pageNum);
+      }
+      else{
+        if(pageNum < 1){
+          pageNum = pageNum-1;
+        }
+        pageSwitch(pageNum);
+      }
     }
     else{
-      topOfPage();
+      if(newlocation < oldlocation){
+        if(pageNum < totalPages){
+          pageNum = pageNum + 1;
+        }
+      pageSwitch(pageNum);
+    }
+    else{
+      if(pageNum > 1){
+        pageNum = pageNum-1;
+      }
+      pageSwitch(pageNum);
+    }
     }
 
+  oldlocation = newlocation;
 }
 document.body.onscroll = pageScroll;
 
@@ -171,7 +202,7 @@ function animate() {
  donut.rotation.y += 0.005;
  donut.rotation.z += 0.01;
 
-  moon.rotation.y += moonRotation;
+moon.rotation.y += moonRotation;
 
   renderer.render(scene, camera);
 }
@@ -189,7 +220,6 @@ function closeSplash() {
     animation-fill-mode:forwards;
   */
 }
-
 preRender();
 animate();
 //the splash screen is hidden only when the background begins to render
