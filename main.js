@@ -1,12 +1,16 @@
 /*A bit of boilerplate for threejs*/
 import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
-
 let pageNum = 1;
+
+//this variable should equal the total number of pages
+let totalPages = 4;
 
 //page elements
 const page1element = document.getElementById("header1");
 const page2element = document.getElementById("page2");
+const page3element = document.getElementById("page3");
+const page4element = document.getElementById("page4");
 
 const splash = document.getElementById("splash");
 
@@ -76,10 +80,33 @@ donutLoader.load( 'donut.glb', function ( gltf ) {
 
 });
 
-scene.add(moon, avatar, pointLight, ambientLight, torus, donut);
+var mine = new THREE.Object3D();
+const mineLoader = new GLTFLoader();
+
+mineLoader.load( 'skin.gltf', function ( gltf ) {
+  
+  const mineLoad = gltf.scene;
+  scene.add(mineLoad);
+  mine.model = gltf.scene;
+  mine.add(mine.model);
+}, undefined, function ( error ) {
+
+  console.error( error );
+
+});
+
+const mineGroup = new THREE.Group();
+mineGroup.add(mine)
+
+mine.translateY(-10)
+
+scene.add(moon, avatar, pointLight, ambientLight, torus, donut, mineGroup);
 
 moon.position.z = -5;
 moon.position.setX(moonDistance);
+
+mine.scale.set(12,12,12);
+mine.position.set(0,-10,-3);
 
 const spaceBackgroundTexture = new THREE.TextureLoader().load(
   './spacebackground.jpg'
@@ -88,9 +115,6 @@ scene.background = spaceBackgroundTexture;
 const redBackgroundTexture = new THREE.TextureLoader().load(
   './redbackground.jpg'
 );
-
-//this variable should equal the total number of pages
-let totalPages = 2;
 
 //toggles page elements 
 function pageShow(page){
@@ -123,14 +147,38 @@ function pageSwitch(page){
   switch (page){
     case 1:
       scene.background = spaceBackgroundTexture;
+      scene.remove(donut);
+      scene.remove(mineGroup);
+      scene.add(avatar);
+      scene.add(torus);
+      scene.add(moon);
       pageShow(page);
       page1element.scrollIntoView({behavior: "smooth", block:"center"});
       pageHide(page);
       break;
     case 2:
       scene.background = redBackgroundTexture;
+      scene.remove(torus);
+      scene.remove(avatar);
+      scene.remove(moon);
+      scene.remove(mineGroup);
+      scene.add(donut);
       pageShow(page);
       page2element.scrollIntoView({behavior: "smooth", block:"center"});
+      pageHide(page);
+      break;
+    case 3:
+      scene.background = redBackgroundTexture;
+      scene.remove(donut);
+      scene.add(mineGroup);
+      pageShow(page);
+      page3element.scrollIntoView({behavior: "smooth", block:"center"});
+      pageHide(page);
+      break;
+    case 4:
+      scene.background = redBackgroundTexture;
+      pageShow(page);
+      page4element.scrollIntoView({behavior: "smooth", block:"center"});
       pageHide(page);
       break;
   }
@@ -164,6 +212,21 @@ function cameraResize(){
 
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.render(scene, camera)
+//to ensure the text is centered and isnt off screen
+  switch (pageNum){
+    case 1:
+      page1element.scrollIntoView({behavior: "smooth", block:"center"});
+      break;
+    case 2:
+      page2element.scrollIntoView({behavior: "smooth", block:"center"});
+      break;
+    case 3:
+      page3element.scrollIntoView({behavior: "smooth", block:"center"});
+      break;
+    case 4:
+      page4element.scrollIntoView({behavior: "smooth", block:"center"});
+      break;
+}
 }
 var moonRotation = .05
 //each action in this function will occur each frame.
@@ -181,11 +244,15 @@ function animate() {
   avatar.rotation.y += -0.005;
   avatar.rotation.z += -0.01;
 
+  mineGroup.rotation.x += 0.01;
+  mineGroup.rotation.y += 0.005;
+  mineGroup.rotation.z += 0.01;
+
  donut.rotation.x += 0.01;
  donut.rotation.y += 0.005;
  donut.rotation.z += 0.01;
 
-moon.rotation.y += moonRotation;
+  moon.rotation.y += moonRotation;
 
   renderer.render(scene, camera);
 }
@@ -209,11 +276,32 @@ window.onbeforeunload = function () {
   window.scrollTo(0, 0);
 }
 
+const mobileStyle = document.createElement("link");
+mobileStyle.rel = "stylesheet";
+mobileStyle.href = "./mobile.css";
+mobileStyle.id = "mobileCSS"
+let mobileMode = false;
+
+function mobile(){
+  if(window.innerWidth <= 700){
+    document.head.appendChild(mobileStyle);
+    mobileMode = true;
+  }else{
+    if(mobileMode == true) {
+      document.getElementById("mobileCSS").remove();
+      mobileMode=false;
+    }
+  }
+
+}
+
 preRender();
 animate();
 //the splash screen is hidden only when the background begins to render
 closeSplash();
 window.addEventListener('resize', cameraResize);
-//window.addEventListener('resize', pageTurn);
-document.getElementById("nextButton").addEventListener("click", pageTurn);
-document.getElementById("backButton").addEventListener("click", pageTurnBack);
+window.addEventListener('resize', mobile);
+//check if mobile mode should be on
+mobile();
+document.getElementById("nextButton").addEventListener("mousedown", pageTurn);
+document.getElementById("backButton").addEventListener("mousedown", pageTurnBack);
