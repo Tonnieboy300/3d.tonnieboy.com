@@ -12,29 +12,7 @@ const page2element = document.getElementById("page2");
 
 const splash = document.getElementById("splash");
 
-const cssElement = document.getElementById("css");
-/*small window detection
- *This changes the css when the window is less than 700 pixels wide.
-*/
-window.addEventListener('resize', cssChange);
-function cssChange(){
-  let windowWidth = window.innerWidth;
-  let attribute = cssElement.getAttribute("href");
-  if(windowWidth <= 700){
-    if(attribute == "./desktop.css"){
-      cssElement.href = "./mobile.css";
-    }
-  }
-  if(windowWidth > 700){
-    if(attribute == "./mobile.css"){
-      cssElement.href = "./desktop.css";
-    }
-  }
- }
-
 let moonDistance = 30
-
-window.onload = cssChange();
 
 const scene = new THREE.Scene();
 
