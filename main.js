@@ -6,6 +6,10 @@ let oldlocation = document.body.getBoundingClientRect().top;
 let newlocation;
 let pageNum = 1;
 
+//page elements
+const page1element = document.getElementById("page1");
+const page2element = document.getElementById("page2");
+
 const splash = document.getElementById("splash");
 
 const cssElement = document.getElementById("css");
@@ -17,13 +21,13 @@ function cssChange(){
   let windowWidth = window.innerWidth;
   let attribute = cssElement.getAttribute("href");
   if(windowWidth <= 700){
-    if(attribute == "./style.css"){
+    if(attribute == "./desktop.css"){
       cssElement.href = "./mobile.css";
     }
   }
   if(windowWidth > 700){
     if(attribute == "./mobile.css"){
-      cssElement.href = "./style.css";
+      cssElement.href = "./desktop.css";
     }
   }
  }
@@ -117,62 +121,29 @@ function pageSwitch(page){
   switch (page){
     case 1:
       scene.background = spaceBackgroundTexture;
+      page1element.scrollIntoView({behavior: "smooth", block:"start"});
       break;
     case 2:
       scene.background = redBackgroundTexture;
+      page2element.scrollIntoView({behavior: "smooth", block:"center"});
       break;
   }
 }
 
-function pageScroll() {
-  //gets the distance the viewport is from the top of the page.
-  newlocation = document.body.getBoundingClientRect().top;
-   // console.log("new location:"+newlocation);
-   // console.log("old location:"+oldlocation);
-
-   //Logic is changed depending on whether or not
-   //the location variable is positive or negative
-    if(oldlocation > 0){
-        if(newlocation > oldlocation){
-          //these if statements prevent the page number from
-          //going below 1 or over the maximum.
-          if(pageNum > totalPages){
-          pageNum = pageNum + 1;
-          }
-        pageSwitch(pageNum);
-      }
-      else{
-        if(pageNum < 1){
-          pageNum = pageNum-1;
-        }
-        pageSwitch(pageNum);
-      }
-    }
-    else{
-      if(newlocation < oldlocation){
-        if(pageNum < totalPages){
-          pageNum = pageNum + 1;
-        }
-      pageSwitch(pageNum);
-    }
-    else{
-      if(pageNum > 1){
-        pageNum = pageNum-1;
-      }
-      pageSwitch(pageNum);
-    }
-    }
-
-  oldlocation = newlocation;
+function pageTurn(){
+  if (pageNum < totalPages){
+    pageNum = pageNum + 1;
+  }
+  console.log("current page:"+pageNum);
+  pageSwitch(pageNum);
 }
-document.body.onscroll = pageScroll;
 
 //Prerenderer
 
 function preRender(){
   scene.background = redBackgroundTexture;
   renderer.render(scene,camera);
-  setTimeout(pageScroll,100);
+ setTimeout(function() {pageSwitch(pageNum)},200);
 }
 
 function cameraResize(){
@@ -225,4 +196,4 @@ animate();
 //the splash screen is hidden only when the background begins to render
 closeSplash();
 window.addEventListener('resize', cameraResize);
-
+document.getElementById("body").addEventListener("click", pageTurn);
