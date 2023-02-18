@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script type="module" src="/main.js"></script>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,12 +19,17 @@
     <link rel="stylesheet" id="css" href="./global.css" />
     <title>Tonnieboy</title>
   </head>
-  <body id="body">
+  <body id="body" >
     <canvas id="bg"></canvas>
-
+    <div id="backButton">
+      <p >Back one Page</p>
+    </div>
+    <div id="nextButton">
+      <p >Next Page</p>
+    </div>
     <main>
       <div id="page1">
-      <header >
+      <header id="header1">
         <h1>Tonnieboy</h1>
       </header>
 
@@ -71,6 +77,6 @@
     <div class="splash" id="splash">
       <img src="./favicon.svg" alt="Tonnieboy Logo" class="splashLogo" >
     </div>
-    <script type="module" src="/main.js"></script>
+    
   </body>
 </html>

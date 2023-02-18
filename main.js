@@ -5,8 +5,7 @@ import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 let pageNum = 1;
 
 //page elements
-const page1element = document.getElementById("page1");
-const page1quote = document.getElementById("page1blockquote")
+const page1element = document.getElementById("header1");
 const page2element = document.getElementById("page2");
 
 const splash = document.getElementById("splash");
@@ -119,14 +118,13 @@ function pageHide(page){
 }
 
 function pageSwitch(page){
- console.log("page:"+page);
 
  //put code for each page here
   switch (page){
     case 1:
       scene.background = spaceBackgroundTexture;
       pageShow(page);
-      page1element.scrollIntoView({behavior: "smooth", block:"start"});
+      page1element.scrollIntoView({behavior: "smooth", block:"center"});
       pageHide(page);
       break;
     case 2:
@@ -141,6 +139,13 @@ function pageSwitch(page){
 function pageTurn(){
   if (pageNum < totalPages){
     pageNum = pageNum + 1;
+  }
+  pageSwitch(pageNum);
+}
+
+function pageTurnBack(){
+  if (pageNum > 1){
+    pageNum = pageNum - 1;
   }
   pageSwitch(pageNum);
 }
@@ -198,10 +203,17 @@ function closeSplash() {
     animation-fill-mode:forwards;
   */
 }
+
+//ensures the page always loads at page 1
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+}
+
 preRender();
 animate();
 //the splash screen is hidden only when the background begins to render
 closeSplash();
 window.addEventListener('resize', cameraResize);
 //window.addEventListener('resize', pageTurn);
-document.getElementById("body").addEventListener("click", pageTurn);
+document.getElementById("nextButton").addEventListener("click", pageTurn);
+document.getElementById("backButton").addEventListener("click", pageTurnBack);
