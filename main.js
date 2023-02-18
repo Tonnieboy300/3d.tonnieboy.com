@@ -2,12 +2,11 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
 
-let oldlocation = document.body.getBoundingClientRect().top;
-let newlocation;
 let pageNum = 1;
 
 //page elements
 const page1element = document.getElementById("page1");
+const page1quote = document.getElementById("page1blockquote")
 const page2element = document.getElementById("page2");
 
 const splash = document.getElementById("splash");
@@ -90,20 +89,51 @@ scene.background = spaceBackgroundTexture;
 const redBackgroundTexture = new THREE.TextureLoader().load(
   './redbackground.jpg'
 );
+
 //this variable should equal the total number of pages
 let totalPages = 2;
+
+//toggles page elements 
+function pageShow(page){
+  let visElement = "page" + page;
+  document.getElementById(visElement).classList.remove("invisible")
+  
+
+}
+
+function pageHide(page){
+    //removes the last and next pages
+    let lastpage = page - 1
+    let lastElement = "page" + lastpage;
+    if(lastpage > 0){
+      document.getElementById(lastElement).classList.add("invisible");
+    }
+
+    let nextpage = page + 1
+    let nextElement = "page" + nextpage;
+
+    if (nextpage <= totalPages){
+      document.getElementById(nextElement).classList.add("invisible");
+    }
+
+}
+
 function pageSwitch(page){
- // console.log("page:"+page);
+ console.log("page:"+page);
 
  //put code for each page here
   switch (page){
     case 1:
       scene.background = spaceBackgroundTexture;
+      pageShow(page);
       page1element.scrollIntoView({behavior: "smooth", block:"start"});
+      pageHide(page);
       break;
     case 2:
       scene.background = redBackgroundTexture;
+      pageShow(page);
       page2element.scrollIntoView({behavior: "smooth", block:"center"});
+      pageHide(page);
       break;
   }
 }
@@ -112,7 +142,6 @@ function pageTurn(){
   if (pageNum < totalPages){
     pageNum = pageNum + 1;
   }
-  console.log("current page:"+pageNum);
   pageSwitch(pageNum);
 }
 
@@ -174,4 +203,5 @@ animate();
 //the splash screen is hidden only when the background begins to render
 closeSplash();
 window.addEventListener('resize', cameraResize);
+//window.addEventListener('resize', pageTurn);
 document.getElementById("body").addEventListener("click", pageTurn);

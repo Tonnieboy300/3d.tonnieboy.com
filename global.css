@@ -6,6 +6,10 @@ canvas {
   width: 100%;
 }
 
+body{
+  overflow: hidden;
+  height:100%;
+}
 
 :root {
   --background: rgba(10, 0, 0, 0.75);
@@ -99,6 +103,10 @@ blockquote h2 {
   padding-right:10px;
 }
 
+#page1{
+  display:contents;
+}
+
   
 
 .left {
@@ -131,4 +139,8 @@ a{
   width:100%;
   transform : translate(-50%,-50%);
   height:25%;
+}
+
+.invisible{
+  visibility: hidden;
 }
