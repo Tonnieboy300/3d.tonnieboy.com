@@ -326,16 +326,30 @@ const mobileStyle = document.createElement("link");
 mobileStyle.rel = "stylesheet";
 mobileStyle.href = "./css/mobile.css";
 mobileStyle.id = "mobileCSS"
+
+const desktopStyle = document.createElement("link");
+desktopStyle.rel = "stylesheet";
+desktopStyle.href = "./css/desktop.css";
+desktopStyle.id = "desktopCSS"
+
 let mobileMode = false;
 
 function mobile(){
   if(window.innerWidth <= 700){
+    if(document.getElementById("desktopCSS") != null){
+      document.getElementById("desktopCSS").remove();
+    }
     document.head.appendChild(mobileStyle);
     mobileMode = true;
+    console.log("mobile on")
   }else{
     if(mobileMode == true) {
-      document.getElementById("mobileCSS").remove();
+      if(document.getElementById("mobileCSS") != null){
+        document.getElementById("mobileCSS").remove();
+      }
+      document.head.appendChild(desktopStyle);
       mobileMode=false;
+      console.log("mobile off")
     }
   }
 

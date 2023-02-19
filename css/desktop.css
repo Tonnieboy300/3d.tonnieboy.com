@@ -1,0 +1,24 @@
+main{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+header{
+    grid-column: 2 / span 1;
+}
+
+section{
+    grid-column: 2 / 8;
+}
+
+footer{
+    grid-column: 2 / 8;
+}
+
+blockquote{
+    grid-column: 2 / span 9;
+}
+
+.left {
+    grid-column: 6 / 12;
+  }

@@ -18,7 +18,7 @@ body{
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
   font-style: normal;
-  background-image: url('./spacebackground.jpg');
+  background-image: url('/assets/spacebackground.jpg');
 }
 
 
@@ -30,9 +30,6 @@ main {
   width: 100%;
   margin: 0px auto;
   padding: 120px 0px;
-  
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
 }
 
 h2, h3, blockquote {
@@ -57,14 +54,12 @@ canvas {
 
 header {
   background: var(--background);
-  grid-column: 2 / span 1;
   font-size: 2.5rem;
   padding: 2rem;
   margin-bottom: var(--elementSpacing);
 }
 
 section {
-  grid-column: 2 / 8;
   padding: 1rem;
   background: var(--background);
   font-size: 1.25rem;
@@ -73,7 +68,6 @@ section {
 }
 
 footer {
-  grid-column: 2 / 8;
   padding: 1rem;
   background: var(--background);
   font-size: 1.25rem;
@@ -89,7 +83,6 @@ footer h2{
 blockquote {
   margin: 0;
   padding: 0;
-  grid-column: 2 / span 9;
   margin-bottom: var(--elementSpacing);
 }
 
@@ -105,12 +98,6 @@ blockquote h2 {
 
 #page1{
   display:contents;
-}
-
-  
-
-.left {
-  grid-column: 6 / 12;
 }
 
 a{
