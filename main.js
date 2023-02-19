@@ -191,11 +191,14 @@ function pageSwitch(page){
   }
 }
 
+var preventSwipe = null
+
 function pageTurn(){
   if (pageNum < totalPages){
     pageNum = pageNum + 1;
   }
   pageSwitch(pageNum);
+  preventSwipe = true
 }
 
 function pageTurnBack(){
@@ -241,12 +244,12 @@ function cameraResize(){
 const body = document.getElementById("body");
 
 function detectSwipeDirection(){
-  if(Math.abs(touchYStart - touchYEnd) > 50){
+  if(Math.abs(touchYStart - touchYEnd) > 100){
     if(touchYStart > touchYEnd){
-      console.log("swipe up");
+      pageTurn();
     }
     if(touchYStart < touchYEnd){
-      console.log("swipe down");
+      pageTurnBack();
     }
   }
 /* not needed for up and down detection
@@ -269,7 +272,9 @@ body.addEventListener("touchstart",function(event){
 body.addEventListener("touchend",function(event){
   touchXEnd = event.changedTouches[0].screenX;
   touchYEnd = event.changedTouches[0].screenY;
+
   detectSwipeDirection();
+
 })
 
 
@@ -335,25 +340,26 @@ desktopStyle.id = "desktopCSS"
 let mobileMode = false;
 
 function mobile(){
-  if(window.innerWidth <= 700){
+  if(window.innerWidth <= 500){
     if(document.getElementById("desktopCSS") != null){
       document.getElementById("desktopCSS").remove();
     }
     document.head.appendChild(mobileStyle);
     mobileMode = true;
-    console.log("mobile on")
-  }else{
+  }
+  else{
     if(mobileMode == true) {
       if(document.getElementById("mobileCSS") != null){
         document.getElementById("mobileCSS").remove();
       }
       document.head.appendChild(desktopStyle);
       mobileMode=false;
-      console.log("mobile off")
     }
   }
 
 }
+
+
 
 preRender();
 animate();
@@ -364,5 +370,5 @@ window.addEventListener('resize', mobile);
 //check if mobile mode should be on
 mobile();
 
-//document.getElementById("nextButton").addEventListener("mousedown", pageTurn);
-//document.getElementById("backButton").addEventListener("mousedown", pageTurnBack);
+document.getElementById("nextButton").addEventListener("mousedown", pageTurn);
+document.getElementById("backButton").addEventListener("mousedown", pageTurnBack);

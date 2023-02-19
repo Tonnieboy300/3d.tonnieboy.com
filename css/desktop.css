@@ -21,4 +21,16 @@ blockquote{
 
 .left {
     grid-column: 6 / 12;
-  }
+}
+
+#backButton{
+    display:inline;
+}
+  
+#nextButton{
+    display:inline;
+}
+
+#mobileSwipe{
+    display: none;
+}
