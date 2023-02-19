@@ -50,15 +50,15 @@ const pointLight = new THREE.PointLight(0xffffff, 1);
 pointLight.position.set(5, 5, 5);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
 
-const avatarTexture = new THREE.TextureLoader().load('avatar.png');
+const avatarTexture = new THREE.TextureLoader().load('./assets/avatar.png');
 
 const avatar = new THREE.Mesh(
   new THREE.SphereGeometry(3),
   new THREE.MeshBasicMaterial({ map: avatarTexture })
 );
 
-const moonTexture = new THREE.TextureLoader().load('./moontexture.jpg');
-const moonNormal = new THREE.TextureLoader().load('./moonnormal.jpg');
+const moonTexture = new THREE.TextureLoader().load('./assets/moontexture.jpg');
+const moonNormal = new THREE.TextureLoader().load('./assets/moonnormal.jpg');
 
 const moon = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
@@ -68,7 +68,7 @@ const moon = new THREE.Mesh(
 var donut = new THREE.Object3D();
 const donutLoader = new GLTFLoader();
 
-donutLoader.load( 'donut.glb', function ( gltf ) {
+donutLoader.load( './assets/donut.glb', function ( gltf ) {
   
   const donutLoad = gltf.scene;
   scene.add(donutLoad);
@@ -83,7 +83,7 @@ donutLoader.load( 'donut.glb', function ( gltf ) {
 var mine = new THREE.Object3D();
 const mineLoader = new GLTFLoader();
 
-mineLoader.load( 'skin.gltf', function ( gltf ) {
+mineLoader.load( './assets/skin.gltf', function ( gltf ) {
   
   const mineLoad = gltf.scene;
   scene.add(mineLoad);
@@ -109,11 +109,11 @@ mine.scale.set(12,12,12);
 mine.position.set(0,-10,-3);
 
 const spaceBackgroundTexture = new THREE.TextureLoader().load(
-  './spacebackground.jpg'
+  './assets/spacebackground.jpg'
 );
 scene.background = spaceBackgroundTexture;
 const redBackgroundTexture = new THREE.TextureLoader().load(
-  './redbackground.jpg'
+  './assets/redbackground.jpg'
 );
 
 //toggles page elements 
@@ -278,7 +278,7 @@ window.onbeforeunload = function () {
 
 const mobileStyle = document.createElement("link");
 mobileStyle.rel = "stylesheet";
-mobileStyle.href = "./mobile.css";
+mobileStyle.href = "./css/mobile.css";
 mobileStyle.id = "mobileCSS"
 let mobileMode = false;
 
