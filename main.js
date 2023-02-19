@@ -1,42 +1,20 @@
 /*A bit of boilerplate for threejs*/
 import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
+let pageNum = 1;
 
-let donut;
+//this variable should equal the total number of pages
+let totalPages = 4;
 
-let location;
-
-let scrollLocation
-
-let windowWidth = window.innerWidth;
-
-let scrollChecker = new Boolean(false);
+//page elements
+const page1element = document.getElementById("header1");
+const page2element = document.getElementById("page2");
+const page3element = document.getElementById("page3");
+const page4element = document.getElementById("page4");
 
 const splash = document.getElementById("splash");
 
-const cssElement = document.getElementById("css");
-/*small window detection
- *This changes the css when the window is less than 700 pixels wide.
-*/
-window.addEventListener('resize', cssChange);
-function cssChange(){
-  let windowWidth = window.innerWidth;
-  let attribute = cssElement.getAttribute("href");
-  if(windowWidth <= 700){
-    if(attribute == "./style.css"){
-      cssElement.href = "./mobile.css";
-    }
-  }
-  if(windowWidth > 700){
-    if(attribute == "./mobile.css"){
-      cssElement.href = "./style.css";
-    }
-  }
- }
-
 let moonDistance = 30
-
-window.onload = cssChange();
 
 const scene = new THREE.Scene();
 
@@ -72,94 +50,160 @@ const pointLight = new THREE.PointLight(0xffffff, 1);
 pointLight.position.set(5, 5, 5);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
 
-const avatarTexture = new THREE.TextureLoader().load('avatar.png');
+const avatarTexture = new THREE.TextureLoader().load('./assets/avatar.png');
 
 const avatar = new THREE.Mesh(
   new THREE.SphereGeometry(3),
   new THREE.MeshBasicMaterial({ map: avatarTexture })
 );
 
-const moonTexture = new THREE.TextureLoader().load('./moontexture.jpg');
-const moonNormal = new THREE.TextureLoader().load('./moonnormal.jpg');
+const moonTexture = new THREE.TextureLoader().load('./assets/moontexture.jpg');
+const moonNormal = new THREE.TextureLoader().load('./assets/moonnormal.jpg');
 
 const moon = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
   new THREE.MeshStandardMaterial({ map: moonTexture, normalMap: moonNormal })
 );
 
-scene.add(moon, avatar, pointLight, ambientLight, torus);
-
+var donut = new THREE.Object3D();
 const donutLoader = new GLTFLoader();
 
-
-donutLoader.load( './donut.glb', function ( gltf ) {
+donutLoader.load( './assets/donut.glb', function ( gltf ) {
   
-  donut = gltf.scene
-  donut.position.y = -20;
-
+  const donutLoad = gltf.scene;
+  scene.add(donutLoad);
+  donut.model = gltf.scene;
+  donut.add(donut.model);
 }, undefined, function ( error ) {
 
-	console.error( error );
+  console.error( error );
 
 });
 
+var mine = new THREE.Object3D();
+const mineLoader = new GLTFLoader();
+
+mineLoader.load( './assets/skin.gltf', function ( gltf ) {
+  
+  const mineLoad = gltf.scene;
+  scene.add(mineLoad);
+  mine.model = gltf.scene;
+  mine.add(mine.model);
+}, undefined, function ( error ) {
+
+  console.error( error );
+
+});
+
+const mineGroup = new THREE.Group();
+mineGroup.add(mine)
+
+mine.translateY(-10)
+
+scene.add(moon, avatar, pointLight, ambientLight, torus, donut, mineGroup);
 
 moon.position.z = -5;
 moon.position.setX(moonDistance);
 
+mine.scale.set(12,12,12);
+mine.position.set(0,-10,-3);
+
 const spaceBackgroundTexture = new THREE.TextureLoader().load(
-  './spacebackground.jpg'
+  './assets/spacebackground.jpg'
 );
 scene.background = spaceBackgroundTexture;
 const redBackgroundTexture = new THREE.TextureLoader().load(
-  './redbackground.jpg'
+  './assets/redbackground.jpg'
 );
 
-function topOfPage(){
-  scene.background = spaceBackgroundTexture;
-  scene.remove(donut);
+//toggles page elements 
+function pageShow(page){
+  let visElement = "page" + page;
+  document.getElementById(visElement).classList.remove("invisible")
+  
+
 }
 
-function pageScroll() {
-  //gets the distance the viewport is from the top of the page.
-  location = document.body.getBoundingClientRect().top;
+function pageHide(page){
+    //removes the last and next pages
+    let lastpage = page - 1
+    let lastElement = "page" + lastpage;
+    if(lastpage > 0){
+      document.getElementById(lastElement).classList.add("invisible");
+    }
 
+    let nextpage = page + 1
+    let nextElement = "page" + nextpage;
 
+    if (nextpage <= totalPages){
+      document.getElementById(nextElement).classList.add("invisible");
+    }
 
-    scrollLocation = location * -0.035;
+}
 
-    moon.position.y = scrollLocation;
-    torus.position.y = scrollLocation;
-    avatar.position.y = scrollLocation;
-    donut.position.y = -30 + scrollLocation;
-    donut.rotation.x += 0.01;
-    donut.rotation.y += 0.005;
-    donut.rotation.z += 0.01;
+function pageSwitch(page){
 
-    //console.log(location);
-    if(location !== 8){
+ //put code for each page here
+  switch (page){
+    case 1:
+      scene.background = spaceBackgroundTexture;
+      scene.remove(donut);
+      scene.remove(mineGroup);
+      scene.add(avatar);
+      scene.add(torus);
+      scene.add(moon);
+      pageShow(page);
+      page1element.scrollIntoView({behavior: "smooth", block:"center"});
+      pageHide(page);
+      break;
+    case 2:
       scene.background = redBackgroundTexture;
+      scene.remove(torus);
+      scene.remove(avatar);
+      scene.remove(moon);
+      scene.remove(mineGroup);
       scene.add(donut);
-    }
-    else{
-          //checks if the function has already been run
-        if(scrollChecker == false){
-        scene.add(donut);
-        scrollChecker = true
-      }else{
-        topOfPage();
-      }
-    }
-
+      pageShow(page);
+      page2element.scrollIntoView({behavior: "smooth", block:"center"});
+      pageHide(page);
+      break;
+    case 3:
+      scene.background = redBackgroundTexture;
+      scene.remove(donut);
+      scene.add(mineGroup);
+      pageShow(page);
+      page3element.scrollIntoView({behavior: "smooth", block:"center"});
+      pageHide(page);
+      break;
+    case 4:
+      scene.background = redBackgroundTexture;
+      pageShow(page);
+      page4element.scrollIntoView({behavior: "smooth", block:"center"});
+      pageHide(page);
+      break;
+  }
 }
-document.body.onscroll = pageScroll;
+
+function pageTurn(){
+  if (pageNum < totalPages){
+    pageNum = pageNum + 1;
+  }
+  pageSwitch(pageNum);
+}
+
+function pageTurnBack(){
+  if (pageNum > 1){
+    pageNum = pageNum - 1;
+  }
+  pageSwitch(pageNum);
+}
 
 //Prerenderer
 
 function preRender(){
   scene.background = redBackgroundTexture;
   renderer.render(scene,camera);
-  setTimeout(topOfPage,100);
+ setTimeout(function() {pageSwitch(pageNum)},200);
 }
 
 function cameraResize(){
@@ -168,6 +212,21 @@ function cameraResize(){
 
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.render(scene, camera)
+//to ensure the text is centered and isnt off screen
+  switch (pageNum){
+    case 1:
+      page1element.scrollIntoView({behavior: "smooth", block:"center"});
+      break;
+    case 2:
+      page2element.scrollIntoView({behavior: "smooth", block:"center"});
+      break;
+    case 3:
+      page3element.scrollIntoView({behavior: "smooth", block:"center"});
+      break;
+    case 4:
+      page4element.scrollIntoView({behavior: "smooth", block:"center"});
+      break;
+}
 }
 var moonRotation = .05
 //each action in this function will occur each frame.
@@ -184,6 +243,14 @@ function animate() {
   avatar.rotation.x += -0.01;
   avatar.rotation.y += -0.005;
   avatar.rotation.z += -0.01;
+
+  mineGroup.rotation.x += 0.01;
+  mineGroup.rotation.y += 0.005;
+  mineGroup.rotation.z += 0.01;
+
+ donut.rotation.x += 0.01;
+ donut.rotation.y += 0.005;
+ donut.rotation.z += 0.01;
 
   moon.rotation.y += moonRotation;
 
@@ -204,11 +271,37 @@ function closeSplash() {
   */
 }
 
-//for some reason, the donut constant only seems to work in the page scroll function, so the donut is prerendered in it.
-setTimeout(pageScroll,30);
+//ensures the page always loads at page 1
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+}
+
+const mobileStyle = document.createElement("link");
+mobileStyle.rel = "stylesheet";
+mobileStyle.href = "./css/mobile.css";
+mobileStyle.id = "mobileCSS"
+let mobileMode = false;
+
+function mobile(){
+  if(window.innerWidth <= 700){
+    document.head.appendChild(mobileStyle);
+    mobileMode = true;
+  }else{
+    if(mobileMode == true) {
+      document.getElementById("mobileCSS").remove();
+      mobileMode=false;
+    }
+  }
+
+}
+
 preRender();
 animate();
 //the splash screen is hidden only when the background begins to render
 closeSplash();
 window.addEventListener('resize', cameraResize);
-
+window.addEventListener('resize', mobile);
+//check if mobile mode should be on
+mobile();
+document.getElementById("nextButton").addEventListener("mousedown", pageTurn);
+document.getElementById("backButton").addEventListener("mousedown", pageTurnBack);

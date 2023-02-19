@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <script type="module" src="/main.js"></script>
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Source+Serif+Pro:wght@700;900&display=swap" rel="stylesheet"> 
-    <script src="./backgroundToggle.js" defer type="module"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       /*animation for splashscreen*/
@@ -16,25 +16,28 @@
       }
     </style>
     <!--Import all assets not in the main script-->
-    <link rel="stylesheet" id="css" href="./style.css" />
+    <link rel="stylesheet" id="css" href="./css/global.css" />
     <title>Tonnieboy</title>
   </head>
-  <body>
+  <body id="body" >
     <canvas id="bg"></canvas>
-
+    <div id="backButton">
+      <p >Back one Page</p>
+    </div>
+    <div id="nextButton">
+      <p >Next Page</p>
+    </div>
     <main>
-      <header>
+      <div id="page1">
+      <header id="header1">
         <h1>Tonnieboy</h1>
       </header>
-      <section>
-        <a id="togglebg">Turn off background</a>
-      </section>
 
-      <blockquote>
+      <blockquote >
         <h2>Just a teen improving themself.</h2>
       </blockquote>
-
-      <section>
+      </div>
+      <section id="page2" class="invisible">
         <h2>About Me 🧑🏽‍💻</h2>
         <p>
           Hi! I'm Tonnieboy, a teen who enjoys technology. I haven't done much
@@ -44,7 +47,7 @@
         </p>
       </section>
 
-      <section class="light">
+      <section id="page3" class="light invisible">
         <h2>🔨 How this site was made</h2>
 
         <p>
@@ -66,14 +69,17 @@
           <li>Creator of tonnieboy.com</li>
         </ul>
       </section>
-      <footer>
+
+      <footer id="page4" class="invisible">
         <h2>Tonnieboy</h2>
         <p>Made with ❤️ by Tonnieboy300</p>
+        <p><a href="./attribution.html">Attribution and Copyright</a></p>
       </footer>
     </main>
+    
     <div class="splash" id="splash">
-      <img src="./favicon.svg" alt="Tonnieboy Logo" class="splashLogo" >
+      <img src="./assets/favicon.svg" alt="Tonnieboy Logo" class="splashLogo" >
     </div>
-    <script type="module" src="/main.js"></script>
+    
   </body>
 </html>
