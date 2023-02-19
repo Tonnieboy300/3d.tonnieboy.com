@@ -1,32 +1,32 @@
 :root {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   width: 100%;
-  position:absolute;
+  position: absolute;
 }
 
-header{
+header {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
 
 #mobileSwipe {
   padding: 1.25rem;
-  padding-top:.5rem;
-  padding-bottom:.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   background: var(--background);
   font-size: 1rem;
   line-height: 1.5;
   margin-bottom: 1rem;
 }
 
-#backButton{
-  display:none;
+#backButton {
+  display: none;
 }
 
-#nextButton{
-  display:none;
+#nextButton {
+  display: none;
 }
 
-#mobileSwipe{
-  display:block;
+#mobileSwipe {
+  display: block;
 }
