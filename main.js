@@ -12,6 +12,13 @@ const page2element = document.getElementById("page2");
 const page3element = document.getElementById("page3");
 const page4element = document.getElementById("page4");
 
+//for touchscreen support
+var touchXStart = null
+var touchYStart = null
+var touchXEnd = null
+var touchYEnd = null
+
+
 const splash = document.getElementById("splash");
 
 let moonDistance = 30
@@ -228,6 +235,45 @@ function cameraResize(){
       break;
 }
 }
+
+//detects touch inputs and their direction
+
+const body = document.getElementById("body");
+
+function detectSwipeDirection(){
+  if(Math.abs(touchYStart - touchYEnd) > 50){
+    if(touchYStart > touchYEnd){
+      console.log("swipe up");
+    }
+    if(touchYStart < touchYEnd){
+      console.log("swipe down");
+    }
+  }
+/* not needed for up and down detection
+  if(Math.abs(touchXStart - touchXEnd) > 50){
+    if(touchXStart < touchXEnd){
+      console.log("swipe right");
+    }
+    if(touchXStart > touchXEnd){
+      console.log("swipe left");
+    }
+  }
+  */
+}
+
+body.addEventListener("touchstart",function(event){
+  touchXStart = event.changedTouches[0].screenX;
+  touchYStart = event.changedTouches[0].screenY;
+},false)
+
+body.addEventListener("touchend",function(event){
+  touchXEnd = event.changedTouches[0].screenX;
+  touchYEnd = event.changedTouches[0].screenY;
+  detectSwipeDirection();
+})
+
+
+
 var moonRotation = .05
 //each action in this function will occur each frame.
 function animate() {
@@ -303,5 +349,6 @@ window.addEventListener('resize', cameraResize);
 window.addEventListener('resize', mobile);
 //check if mobile mode should be on
 mobile();
-document.getElementById("nextButton").addEventListener("mousedown", pageTurn);
-document.getElementById("backButton").addEventListener("mousedown", pageTurnBack);
+
+//document.getElementById("nextButton").addEventListener("mousedown", pageTurn);
+//document.getElementById("backButton").addEventListener("mousedown", pageTurnBack);
