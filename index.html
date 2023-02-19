@@ -4,38 +4,48 @@
     <meta charset="UTF-8" />
     <script type="module" src="/main.js"></script>
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Source+Serif+Pro:wght@700;900&display=swap" rel="stylesheet"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Source+Serif+Pro:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       /*animation for splashscreen*/
       @keyframes slideDown {
-        from {transform : translate(-50%,-50%);}
-        to {transform : translate(-50%,100%);}
+        from {
+          transform: translate(-50%, -50%);
+        }
+        to {
+          transform: translate(-50%, 100%);
+        }
       }
     </style>
     <!--Import all assets not in the main script-->
     <link rel="stylesheet" id="css" href="./css/global.css" />
     <title>Tonnieboy</title>
   </head>
-  <body id="body" >
+  <body id="body">
     <canvas id="bg"></canvas>
     <div id="backButton">
-      <p >Back one Page</p>
+      <p>Back one Page</p>
     </div>
     <div id="nextButton">
-      <p >Next Page</p>
+      <p>Next Page</p>
     </div>
     <main>
       <div id="page1">
-      <header id="header1">
-        <h1>Tonnieboy</h1>
-      </header>
+        <header id="header1">
+          <h1>Tonnieboy</h1>
+        </header>
+        <section id="mobileSwipe">
+          <p>Swipe up to continue, Swipe down to go back</p>
+        </section>
 
-      <blockquote >
-        <h2>Just a teen improving themself.</h2>
-      </blockquote>
+        <blockquote>
+          <h2>Just a teen improving themself.</h2>
+        </blockquote>
       </div>
       <section id="page2" class="invisible">
         <h2>About Me 🧑🏽‍💻</h2>
@@ -76,10 +86,9 @@
         <p><a href="./attribution.html">Attribution and Copyright</a></p>
       </footer>
     </main>
-    
+
     <div class="splash" id="splash">
-      <img src="./assets/favicon.svg" alt="Tonnieboy Logo" class="splashLogo" >
+      <img src="./assets/favicon.svg" alt="Tonnieboy Logo" class="splashLogo" />
     </div>
-    
   </body>
 </html>

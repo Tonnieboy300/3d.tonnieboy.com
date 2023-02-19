@@ -6,21 +6,20 @@ canvas {
   width: 100%;
 }
 
-body{
+body {
   overflow: hidden;
-  height:100%;
+  height: 100%;
 }
 
 :root {
   --background: rgba(10, 0, 0, 0.75);
   --elementSpacing: 100px;
 
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-weight: 400;
   font-style: normal;
-  background-image: url('./spacebackground.jpg');
+  background-image: url("/assets/spacebackground.jpg");
 }
-
 
 main {
   width: 100vw;
@@ -30,18 +29,17 @@ main {
   width: 100%;
   margin: 0px auto;
   padding: 120px 0px;
-  
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
 }
 
-h2, h3, blockquote {
-  font-family: 'Source Serif Pro', serif;
+h2,
+h3,
+blockquote {
+  font-family: "Source Serif Pro", serif;
   font-weight: 700;
   font-style: normal;
 }
 h1 {
-  font-family: 'Source Serif Pro', cursive;
+  font-family: "Source Serif Pro", cursive;
   font-weight: 900;
   font-style: normal;
   margin: 0;
@@ -53,18 +51,14 @@ canvas {
   left: 0;
 }
 
-
-
 header {
   background: var(--background);
-  grid-column: 2 / span 1;
   font-size: 2.5rem;
   padding: 2rem;
   margin-bottom: var(--elementSpacing);
 }
 
 section {
-  grid-column: 2 / 8;
   padding: 1rem;
   background: var(--background);
   font-size: 1.25rem;
@@ -73,7 +67,6 @@ section {
 }
 
 footer {
-  grid-column: 2 / 8;
   padding: 1rem;
   background: var(--background);
   font-size: 1.25rem;
@@ -81,7 +74,7 @@ footer {
   margin-bottom: var(--elementSpacing);
 }
 
-footer h2{
+footer h2 {
   color: white;
   font-size: 3rem;
 }
@@ -89,7 +82,6 @@ footer h2{
 blockquote {
   margin: 0;
   padding: 0;
-  grid-column: 2 / span 9;
   margin-bottom: var(--elementSpacing);
 }
 
@@ -100,67 +92,61 @@ blockquote h2 {
   display: inline-block;
   line-height: 5rem;
   padding-left: 10px;
-  padding-right:10px;
+  padding-right: 10px;
 }
 
-#page1{
-  display:contents;
+#page1 {
+  display: contents;
 }
 
-  
-
-.left {
-  grid-column: 6 / 12;
-}
-
-a{
+a {
   color: #58dbfc;
 }
 
 /*Splash Screen */
 
-.splash{
+.splash {
   cursor: pointer;
-  position:fixed;
-  top:50%;
-  left:50%;
-  height:100%;
-  width:100%;
-  transform : translate(-50%,-50%);
-  background-color:black;
-  z-index:99;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  z-index: 99;
 }
 
-.splashLogo{
-  position:fixed;
-  top:50%;
-  left:50%;
-  height:100%;
-  width:100%;
-  transform : translate(-50%,-50%);
-  height:25%;
+.splashLogo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  height: 25%;
 }
 
-.invisible{
+.invisible {
   visibility: hidden;
 }
 
-#backButton{
-  position:fixed;
-  top:0;
-  right:0;
-  padding:5px;
-  color:black;
-  background-color:white;
-  z-index:50;
+#backButton {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  color: black;
+  background-color: white;
+  z-index: 50;
 }
 
-#nextButton{
-  position:fixed;
-  bottom:0;
-  right:0;
-  padding:5px;
-  color:black;
-  background-color:white;
-  z-index:51;
+#nextButton {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+  color: black;
+  background-color: white;
+  z-index: 51;
 }
