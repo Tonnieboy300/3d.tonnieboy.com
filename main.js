@@ -346,14 +346,12 @@ function mobile() {
     document.head.appendChild(mobileStyle);
     mobileMode = true;
   } else {
-    if (mobileMode == true) {
       if (document.getElementById("mobileCSS") != null) {
         document.getElementById("mobileCSS").remove();
       }
       document.head.appendChild(desktopStyle);
       mobileMode = false;
     }
-  }
 }
 
 preRender();
@@ -366,6 +364,4 @@ window.addEventListener("resize", mobile);
 mobile();
 
 document.getElementById("nextButton").addEventListener("mousedown", pageTurn);
-document
-  .getElementById("backButton")
-  .addEventListener("mousedown", pageTurnBack);
+document.getElementById("backButton").addEventListener("mousedown", pageTurnBack);
