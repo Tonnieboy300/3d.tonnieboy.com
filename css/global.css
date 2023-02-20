@@ -131,22 +131,36 @@ a {
   visibility: hidden;
 }
 
-#backButton {
+.scrollButton{
   position: fixed;
-  top: 0;
   right: 0;
-  padding: 5px;
   color: black;
   background-color: white;
   z-index: 50;
+  width:80px;
+  height:80px;
+}
+
+#backButton {
+  top: 0;
 }
 
 #nextButton {
-  position: fixed;
   bottom: 0;
-  right: 0;
-  padding: 5px;
-  color: black;
-  background-color: white;
-  z-index: 51;
+}
+
+.arrow{
+  position:fixed;
+  width:50px;
+  right:14.5px;
+  z-index:51;
+  transform: scale(1);
+}
+
+#arrow-down{
+  bottom:6px;
+}
+
+#arrow-up{
+  top:6px;
 }

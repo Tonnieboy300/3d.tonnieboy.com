@@ -193,6 +193,7 @@ function pageTurn() {
   if (pageNum < totalPages) {
     pageNum = pageNum + 1;
   }
+  console.log("fired")
   pageSwitch(pageNum);
   preventSwipe = true;
 }
@@ -201,6 +202,7 @@ function pageTurnBack() {
   if (pageNum > 1) {
     pageNum = pageNum - 1;
   }
+  console.log("fired")
   pageSwitch(pageNum);
 }
 
@@ -262,14 +264,10 @@ function detectSwipeDirection() {
   */
 }
 
-body.addEventListener(
-  "touchstart",
-  function (event) {
+body.addEventListener("touchstart",function (event) {
     touchXStart = event.changedTouches[0].screenX;
     touchYStart = event.changedTouches[0].screenY;
-  },
-  false
-);
+  },false);
 
 body.addEventListener("touchend", function (event) {
   touchXEnd = event.changedTouches[0].screenX;
@@ -346,14 +344,12 @@ function mobile() {
     document.head.appendChild(mobileStyle);
     mobileMode = true;
   } else {
-    if (mobileMode == true) {
       if (document.getElementById("mobileCSS") != null) {
         document.getElementById("mobileCSS").remove();
       }
       document.head.appendChild(desktopStyle);
       mobileMode = false;
     }
-  }
 }
 
 preRender();
@@ -366,6 +362,4 @@ window.addEventListener("resize", mobile);
 mobile();
 
 document.getElementById("nextButton").addEventListener("mousedown", pageTurn);
-document
-  .getElementById("backButton")
-  .addEventListener("mousedown", pageTurnBack);
+document.getElementById("backButton").addEventListener("mousedown", pageTurnBack);
