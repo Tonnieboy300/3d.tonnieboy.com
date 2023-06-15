@@ -13,9 +13,10 @@ const page3element = document.getElementById("page3");
 const page4element = document.getElementById("page4");
 
 //for touchscreen support
-var touchXStart = null;
+//touchx is only needed for horizontal swiping
+//var touchXStart = null;
 var touchYStart = null;
-var touchXEnd = null;
+//var touchXEnd = null;
 var touchYEnd = null;
 
 const splash = document.getElementById("splash");
@@ -193,7 +194,7 @@ function pageTurn() {
   if (pageNum < totalPages) {
     pageNum = pageNum + 1;
   }
-  console.log("fired")
+  //console.log("fired")
   pageSwitch(pageNum);
   preventSwipe = true;
 }
@@ -202,7 +203,7 @@ function pageTurnBack() {
   if (pageNum > 1) {
     pageNum = pageNum - 1;
   }
-  console.log("fired")
+  //console.log("fired")
   pageSwitch(pageNum);
 }
 
@@ -265,12 +266,12 @@ function detectSwipeDirection() {
 }
 
 body.addEventListener("touchstart",function (event) {
-    touchXStart = event.changedTouches[0].screenX;
+    //touchXStart = event.changedTouches[0].screenX;
     touchYStart = event.changedTouches[0].screenY;
   },false);
 
 body.addEventListener("touchend", function (event) {
-  touchXEnd = event.changedTouches[0].screenX;
+  //touchXEnd = event.changedTouches[0].screenX;
   touchYEnd = event.changedTouches[0].screenY;
 
   detectSwipeDirection();
